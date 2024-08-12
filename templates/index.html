@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>T20 Cricket Match Prediction</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="overlay"></div>
+    <div class="container">
+        <h1 class="text-center mb-4">T20 Cricket Match Score Prediction</h1>
+        <h2 class="text-center mb-4">Made by Emon Hasan</h2>
+        
+        <div class="form-section">
+            <form method="POST">
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="batting_team">Batting Team</label>
+                        <select id="batting_team" name="batting_team" class="form-control" required>
+                            <option value="" disabled>Select Batting Team</option>
+                            {% for team in teams %}
+                                <option value="{{ team }}" {% if team == request.form.get('batting_team') %}selected{% endif %}>{{ team }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="bowling_team">Bowling Team</label>
+                        <select id="bowling_team" name="bowling_team" class="form-control" required>
+                            <option value="" disabled>Select Bowling Team</option>
+                            {% for team in teams %}
+                                <option value="{{ team }}" {% if team == request.form.get('bowling_team') %}selected{% endif %}>{{ team }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="venue">Venue</label>
+                        <select id="venue" name="venue" class="form-control" required>
+                            <option value="" disabled>Select Venue</option>
+                            {% for venue in venues %}
+                                <option value="{{ venue }}" {% if venue == request.form.get('venue') %}selected{% endif %}>{{ venue }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="current_score">Current Score</label>
+                        <input type="number" id="current_score" name="current_score" class="form-control" value="{{ request.form.get('current_score') }}" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label for="overs">Overs</label>
+                        <input type="number" step="1" id="overs" name="overs" class="form-control" value="{{ request.form.get('overs') }}" required>
+                    </div>
+
+                    <div class="form-group col-md-4">
+                        <label for="wickets">Wickets</label>
+                        <input type="number" id="wickets" name="wickets" class="form-control" value="{{ request.form.get('wickets') }}" required>
+                    </div>
+
+                    <div class="form-group col-md-4">
+                        <label for="last_five">Last Five Overs Score</label>
+                        <input type="number" id="last_five" name="last_five" class="form-control" value="{{ request.form.get('last_five') }}" required>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-lg btn-block">Predict</button>
+            </form>
+        </div>
+
+        {% if prediction is not none %}
+            <div class="prediction-result">
+                <h3>Prediction Result:</h3>
+                <p><strong>Batting Team:</strong> {{ request.form.get('batting_team') }}</p>
+                <p><strong>Bowling Team:</strong> {{ request.form.get('bowling_team') }}</p>
+                <p><strong>Venue:</strong> {{ request.form.get('venue') }}</p>
+                <p><strong>Current Score:</strong> {{ request.form.get('current_score') }}</p>
+                <p><strong>Overs:</strong> {{ request.form.get('overs') }}</p>
+                <p><strong>Wickets:</strong> {{ request.form.get('wickets') }}</p>
+                <p><strong>Last Five Overs Score:</strong> {{ request.form.get('last_five') }}</p>
+                <p><strong>Predicted Score:</strong> {{ prediction }}</p>
+            </div>
+        {% endif %}
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2024 All Rights Reserved | <a href="https://github.com/Md-Emon-Hasan">Emon Hasan</a></p>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</body>
+</html>
